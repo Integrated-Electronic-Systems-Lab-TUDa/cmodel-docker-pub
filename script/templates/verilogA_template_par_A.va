@@ -1,0 +1,82 @@
+// VerilogA implementation for RFET_Model 
+// using Expressions describing a Neural Network.
+// The NN is trained on a TCAD Dataset describing the RFET Charateristics
+
+
+
+`include "constants.vams"
+`include "disciplines.vams"
+
+module diss_pRFET_model(lat1, lat2, FG, TG, BG );
+
+inout lat1, lat2, FG, TG, BG ;
+electrical lat1, lat2, FG, TG, BG;
+
+
+@parameters@
+
+
+// --- variables ---
+real Qfg,Qtg,Qbg,Qlat1,Qlat2;
+real Ilat12;
+real Layer0_out [0:60];
+real Layer1_out [0:60];
+real Layer2_out [0:60];
+real Layerlin0_out [0:60];
+real Layerlin1_out [0:60];
+real Layerlin2_out [0:60];
+real sigma_log;
+real Ilat1_log,Ilat1_lin,out;
+real volt[0:3];
+real neuron_of_L_0;
+real neuron_of_L_1;
+real neuron_of_L_2;
+real neuron_of_L_3;
+real neuronlin_of_L0;
+real neuronlin_of_L1;
+real neuronlin_of_L2;
+real neuronlin_of_L3;
+real beta;
+real k;
+real Qscale;
+
+branch (lat2,lat1) b_lat21;
+branch (FG,lat1) b_FG1;
+branch (TG,lat1) b_TG1;
+branch (BG,lat1) b_BG1;
+
+//--- iteratzion variables required in for-loops ---
+genvar j;
+
+analog begin
+
+volt[0] = V(b_lat21);
+volt[1] = V(b_FG1);
+volt[2] = V(b_TG1);
+volt[3] = V(b_BG1);
+
+
+@Imodel@
+//$strobe("sigma_log: %f, volt0= %f, out=%f", sigma_log, volt[0], out);
+
+@Qmodel@
+
+
+Ilat12 = out /1000;
+
+I(lat1,lat2) <+ Ilat12 ;
+
+I(FG)<+ ddt(Qfg * Qscale);
+I(TG)<+ ddt(Qtg* Qscale);
+I(BG)<+ ddt(Qbg* Qscale);
+I(lat1)<+ ddt(Qlat1* Qscale);
+I(lat2)<+ ddt(Qlat2* Qscale);
+
+end 
+
+endmodule
+
+
+// model parameters:
+
+/*@mdl_pars@*/
