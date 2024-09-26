@@ -1,0 +1,7 @@
+tensorflow==2.14.1
+keras=2.15
+ipykernel
+kennard-stone
+feyn
+cmasher
+
