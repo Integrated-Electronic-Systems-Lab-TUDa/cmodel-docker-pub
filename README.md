@@ -12,7 +12,8 @@ When using conda, create a conda environment and then install the requirements:
  
 
     pip install -r pip_requirements.txt
-  
+
+Please note that the .h5 export feature requires Keras and TensorFlow <= 2.15.0.
  ## Run Flow
    
 The demo notebook `script/NN_fact.ipynb` can then be executed e.g. in VS Code. It demonstrates the deep learning based compact modeling of the planar RFET.
