@@ -51,7 +51,7 @@ def build_tanh_model(dim_in=4, n_neurons = 8, opimizer = 'Adam',lr=1.6E-03, loss
         mdl (Keras object): Compiled model.
     """
     # ----building input layer----
-    x = layers.Input(shape= (dim_in),name ="InputLayer")
+    x = layers.Input(shape= (dim_in, ),name ="InputLayer")
 
     # ---- hidden layser ----
     zOne = layers.Dense(units=n_neurons, activation = "tanh", name = "HiddenLayer1")(x)

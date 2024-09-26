@@ -5,7 +5,6 @@ import os
 
 dir_script = "."
 
-# dir_pytaurus = "/private/maxr/projects/pytaurus"
 dir_data = "../data"
 
 

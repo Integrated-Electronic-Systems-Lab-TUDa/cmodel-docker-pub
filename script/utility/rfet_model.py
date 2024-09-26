@@ -28,10 +28,7 @@ import pytaurus_tools as pyt
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 
-# sys.path.insert(1,"/home/maxr/HESSENBOX-DA/common/python_style")
-# import python_style
 
-# python_style.plot_style_ieee()
 
 
 class rfet_model:
@@ -65,7 +62,7 @@ class rfet_model:
         self.nn_mdl_dir = nn_mdl_dir
         self.sr_mdl_dir = sr_mdl_dir
 
-        mdb = mongodb_driver.mdb_connect("mdb_cmodel", "root", "t(jWbtU4DRnuXqdhK")
+        mdb = mongodb_driver.mdb_connect("mdb_cmodel", "root", "tyjWbtU4DRnuXqdhK")
         mdb_col = mdb["NN"]
 
         i_mdl_lin = mdb_col.find_one({"_id" : ObjectId(I_model["lin"])})
@@ -201,13 +198,14 @@ class rfet_model:
 
 
         q_mdl = {}
-        q_mdl["Qbg"] = feyn.Model.load(self.sr_mdl_dir + "/mx/Q/"+ str(self.Q_model_pars["_id"]) + "_Qbg")
+        # q_mdl["Qbg"] = feyn.Model.load(self.sr_mdl_dir + "/mx/Q/"+ str(self.Q_model_pars["_id"]) + "_Qbg")
         q_mdl["Qfg"] = feyn.Model.load(self.sr_mdl_dir + "/mx/Q/"+ str(self.Q_model_pars["_id"]) + "_Qfg")
         q_mdl["Qtg"] = feyn.Model.load(self.sr_mdl_dir + "/mx/Q/"+ str(self.Q_model_pars["_id"]) + "_Qtg")
         q_mdl["Qlat1"] = feyn.Model.load(self.sr_mdl_dir + "/mx/Q/"+ str(self.Q_model_pars["_id"]) + "_Qlat1")
         q_mdl["Qlat2"] = feyn.Model.load(self.sr_mdl_dir + "/mx/Q/"+ str(self.Q_model_pars["_id"]) + "_Qlat2")
     
-        eq_qbg = str(q_mdl["Qbg"].sympify(signif= significant_digits,include_weights=True)).replace("Vtglat1", "V(b_TG1)").replace("Vfglat1", "V(b_FG1)").replace("Vlat21", "V(b_lat21)")
+        eq_qbg = "0"
+        # eq_qbg = str(q_mdl["Qbg"].sympify(signif= significant_digits,include_weights=True)).replace("Vtglat1", "V(b_TG1)").replace("Vfglat1", "V(b_FG1)").replace("Vlat21", "V(b_lat21)")
         eq_qtg = str(q_mdl["Qtg"].sympify(signif= significant_digits,include_weights=True)).replace("Vtglat1", "V(b_TG1)").replace("Vfglat1", "V(b_FG1)").replace("Vlat21", "V(b_lat21)")
         eq_qfg = str(q_mdl["Qfg"].sympify(signif= significant_digits,include_weights=True)).replace("Vtglat1", "V(b_TG1)").replace("Vfglat1", "V(b_FG1)").replace("Vlat21", "V(b_lat21)")
         eq_qlat1 = str(q_mdl["Qlat1"].sympify(signif= significant_digits,include_weights=True)).replace("Vtglat1", "V(b_TG1)").replace("Vfglat1", "V(b_FG1)").replace("Vlat21", "V(b_lat21)")
@@ -368,7 +366,7 @@ class rfet_model:
         return y_pred_lin, y_pred_log, out
 
 
-    def sim_cds_inv(self, dir_ocn = "/home/maxr/PARFAIT/Cadence/Models", dir_results = "/home/maxr/PARFAIT/Cadence/Models/csv_export/inv", template_file="../templates/inv_template.ocn" , n_steps = 100):
+    def sim_cds_inv(self, dir_ocn = "./", dir_results = "./", template_file="../templates/inv_template.ocn" , n_steps = 100):
 
         # clean results directory
         files  = glob.glob(dir_results + "/*")

@@ -466,7 +466,7 @@ def mx_run_NN_lin(save_path = '', epochs = 100, augmentation_type = None,
 
 
     #----- saving the model ----
-    compiled_mdl.save(save_path + "/" + str(_id))
+    compiled_mdl.save(save_path + "/" + str(_id), save_format="h5")
 
 
     # ---- printing metrics ----

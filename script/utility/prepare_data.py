@@ -1,7 +1,6 @@
 #author: maxr
 
 import sys
-sys.path.insert(1,"/private/maxr/projects/pytaurus/helper/")
 
 
 
@@ -9,12 +8,8 @@ import pandas as pd
 import numpy as np
 import pickle
 import re
-import pytaurus_custom_export_sim as pyc
-import pytaurus_tools
-
-storage_fs = "/private/maxr/projects/pytaurus_data"
-pyt_FS = pytaurus_tools.pytaurusFS(storage_fs)
-
+#import pytaurus_custom_export_sim as pyc
+#import pytaurus_tools
 
 # class compact_model:
 #     #list of electrodes, sorted according to table columns
@@ -388,97 +383,97 @@ def load_namlab_excel_single(data_path, Xlabels, Ylabel = ["ids"], sort_by = ["i
 
 
 
-def getSimData(run):
-    #get simulations
+# def getSimData(run):
+#     #get simulations
 
-    col = mdb["simulations"]
+#     col = mdb["simulations"]
 
-    aggr_match =[ {"$match" : {"run": run , "status" : "post_processed"} }] 
-    aggr_result = col.aggregate(aggr_match)
+#     aggr_match =[ {"$match" : {"run": run , "status" : "post_processed"} }] 
+#     aggr_result = col.aggregate(aggr_match)
 
-    tick_postprocessed = 0
+#     tick_postprocessed = 0
 
-    traces_all = pd.DataFrame()
+#     traces_all = pd.DataFrame()
 
-    for sim in aggr_result:
-        # CURRENTFILE
-        #f = open(tmp_folder + '/' + str(sim['_id'])+ '_currentfile.plt', "wb")
-        #f.write(sim['sim_data'][str(sim['_id'])+ '_currentfile.plt'])
-        #f.close()
+#     for sim in aggr_result:
+#         # CURRENTFILE
+#         #f = open(tmp_folder + '/' + str(sim['_id'])+ '_currentfile.plt', "wb")
+#         #f.write(sim['sim_data'][str(sim['_id'])+ '_currentfile.plt'])
+#         #f.close()
         
-        sim_files = pyt_FS.getFilesBy_ID(str(sim["_id"]))
+#         sim_files = pyt_FS.getFilesBy_ID(str(sim["_id"]))
 
-        plt_str = str( sim_files["sim"+str(sim['_id'])+ '_currentfile.plt'])
+#         plt_str = str( sim_files["sim"+str(sim['_id'])+ '_currentfile.plt'])
         
-        # extract all trace names
-        trace_names = re.findall(r"\"(.+?)\"", plt_str)
+#         # extract all trace names
+#         trace_names = re.findall(r"\"(.+?)\"", plt_str)
 
-        # extract all values of form 3.90968971685765E-01
-        trace_values = re.findall(r"-?\d\.\d{14}E[\+-]\d{2}", plt_str)
+#         # extract all values of form 3.90968971685765E-01
+#         trace_values = re.findall(r"-?\d\.\d{14}E[\+-]\d{2}", plt_str)
 
 
-        # create traces structure
-        traces = {}
+#         # create traces structure
+#         traces = {}
 
-        for name in trace_names:
-            # take every nth entry an add to list
-            tmp = trace_values[trace_names.index(name) :: len(trace_names)]
-            traces[name] = [float(i) for i in tmp] 
+#         for name in trace_names:
+#             # take every nth entry an add to list
+#             tmp = trace_values[trace_names.index(name) :: len(trace_names)]
+#             traces[name] = [float(i) for i in tmp] 
             
-        if traces_all.empty:
-            traces_all = pd.DataFrame(traces)
+#         if traces_all.empty:
+#             traces_all = pd.DataFrame(traces)
 
-        else:
-            traces_all = pd.concat([traces_all, pd.DataFrame(traces)])
+#         else:
+#             traces_all = pd.concat([traces_all, pd.DataFrame(traces)])
 
 
-        pass 
-        # del traces["lat1 DisplacementCurrent"]
-        # del traces["lat2 DisplacementCurrent"]
-        # del traces["fgate DisplacementCurrent"]
-        # del traces["bgate DisplacementCurrent"]
-        # del traces["tgate DisplacementCurrent"]
+#         pass 
+#         # del traces["lat1 DisplacementCurrent"]
+#         # del traces["lat2 DisplacementCurrent"]
+#         # del traces["fgate DisplacementCurrent"]
+#         # del traces["bgate DisplacementCurrent"]
+#         # del traces["tgate DisplacementCurrent"]
 
-        # del traces["lat1 QuasiFermiPotential"]
-        # del traces["lat2 QuasiFermiPotential"]
-        # del traces["fgate QuasiFermiPotential"]
-        # del traces["bgate QuasiFermiPotential"]
-        # del traces["tgate QuasiFermiPotential"]
+#         # del traces["lat1 QuasiFermiPotential"]
+#         # del traces["lat2 QuasiFermiPotential"]
+#         # del traces["fgate QuasiFermiPotential"]
+#         # del traces["bgate QuasiFermiPotential"]
+#         # del traces["tgate QuasiFermiPotential"]
 
-        # del traces["lat1 eCurrent"]
-        # del traces["lat2 eCurrent"]
-        # del traces["fgate eCurrent"]
-        # del traces["bgate eCurrent"]
-        # del traces["tgate eCurrent"]
+#         # del traces["lat1 eCurrent"]
+#         # del traces["lat2 eCurrent"]
+#         # del traces["fgate eCurrent"]
+#         # del traces["bgate eCurrent"]
+#         # del traces["tgate eCurrent"]
 
-        # del traces["lat1 hCurrent"]
-        # del traces["lat2 hCurrent"]
-        # del traces["fgate hCurrent"]
-        # del traces["bgate hCurrent"]
-        # del traces["tgate hCurrent"]
+#         # del traces["lat1 hCurrent"]
+#         # del traces["lat2 hCurrent"]
+#         # del traces["fgate hCurrent"]
+#         # del traces["bgate hCurrent"]
+#         # del traces["tgate hCurrent"]
 
-        # del traces["lat1 InnerVoltage"]
-        # del traces["lat2 InnerVoltage"]
-        # del traces["fgate InnerVoltage"]
-        # del traces["bgate InnerVoltage"]
-        # del traces["tgate InnerVoltage"]
+#         # del traces["lat1 InnerVoltage"]
+#         # del traces["lat2 InnerVoltage"]
+#         # del traces["fgate InnerVoltage"]
+#         # del traces["bgate InnerVoltage"]
+#         # del traces["tgate InnerVoltage"]
 
-        # add CPU time
+#         # add CPU time
 
-        # log_str = str(sim_files[str(sim['_id'])+ '_outputfile_des.log'])
+#         # log_str = str(sim_files[str(sim['_id'])+ '_outputfile_des.log'])
 
-        # # extract CPU time
-        # cpu_time = re.findall(r"total cpu:\s(\d+\.\d+)\ss", log_str)
-        # sim['post_processed']['CPU_TIME'] = float(cpu_time[0])
+#         # # extract CPU time
+#         # cpu_time = re.findall(r"total cpu:\s(\d+\.\d+)\ss", log_str)
+#         # sim['post_processed']['CPU_TIME'] = float(cpu_time[0])
     
-        # # extract Wall Clock time
-        # wallclock_time = re.findall(r"wallclock:\s(\d+\.\d+)\ss", log_str)
-        # sim['post_processed']['WALLCLOCK_TIME'] = float(wallclock_time[0])
+#         # # extract Wall Clock time
+#         # wallclock_time = re.findall(r"wallclock:\s(\d+\.\d+)\ss", log_str)
+#         # sim['post_processed']['WALLCLOCK_TIME'] = float(wallclock_time[0])
 
-        # host = re.findall(r"Host\sName:\s(\w+)", log_str)
-        # sim['post_processed']['SIM_HOST'] = host[0]
+#         # host = re.findall(r"Host\sName:\s(\w+)", log_str)
+#         # sim['post_processed']['SIM_HOST'] = host[0]
 
-    return traces_all
+#     return traces_all
 
 
 # load all trace signals
@@ -509,8 +504,7 @@ def load_from_DC_sim(data_path, Xlabels, Ylabel, scale_factor=1E03):
 
 
 def main(): 
-    str_run = "run_optimized_common_goal"
-    load_dc_ramp_data(f"/private/maxr/projects/pytaurus/helper/export/{str_run}/{str_run}_export.json", ["Vlat21", "Vfglat21", "Vtglat21"], ["ids"])
+    pass
 
 
 if __name__ == "__main__":
